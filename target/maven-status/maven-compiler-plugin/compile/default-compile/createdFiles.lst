@@ -1,0 +1,5 @@
+com\modulo_aluno\PageAlunoController.class
+module-info.class
+com\application\App.class
+com\application\HomeScreenController.class
+com\modulo_aluno\CadastrarAtividadeScreenController.class

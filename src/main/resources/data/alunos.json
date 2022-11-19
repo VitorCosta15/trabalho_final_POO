@@ -1,0 +1,20 @@
+{
+  "alunos": [
+    {
+      "nome": "Vítor Costa",
+      "matricula": "20100862",
+      "curso": "Engenharia de computação",
+      "email": "vscosta@inf.ufpel.edu.br",
+      "ingresso": "2020/1",
+      "formatura": "2025/1"
+    },
+    {
+      "nome": "Miguel Strelow",
+      "matricula": "12345678",
+      "curso": "Ciência de computação",
+      "email": "miguelstrelow@inf.ufpel.edu.br",
+      "ingresso": "2020/1",
+      "formatura": "2025/1"
+    }
+  ]
+}
