@@ -1,6 +1,5 @@
 package com.modulo_aluno;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -19,12 +18,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 public class PageAlunoController implements Initializable{
 
     private static Aluno alunoAtual;
     private static ArrayList<RegistroAtividade> atividadesDoAluno = new ArrayList<RegistroAtividade>();
+
+
     @FXML
     private Label TextMatricula;
 
@@ -76,19 +79,19 @@ public class PageAlunoController implements Initializable{
 
     @FXML
     void goToCadastrarAtividade(ActionEvent event) throws IOException {
-        App.setRoot("/layouts/cadastrar_atividade.fxml");
+        if(!Globals.alunos.isEmpty()){
+            App.setRoot("/layouts/cadastrar_atividade.fxml");
+        }
     }
 
     @FXML
     void goToNextAluno(ActionEvent event) throws IOException {
-        tableAtividades.getColumns().clear();
         Globals.contAluno++;
         initialize(null, null);
     }
 
     @FXML
     void goToPrevAluno(ActionEvent event) {
-        tableAtividades.getColumns().clear();
         Globals.contAluno--;
         initialize(null, null);
     }
@@ -100,6 +103,15 @@ public class PageAlunoController implements Initializable{
         tableAtividades.getColumns().clear();
         tableAtividades.getItems().clear();
         atividadesDoAluno.clear();
+        if(Globals.alunos.isEmpty()){
+            textNome.setText("Não há alunos");
+            TextMatricula.setText("Não há alunos");
+            textEmail.setText("Não há alunos");
+            textFormatura.setText("Não há alunos");
+            textIngresso.setText("Não há alunos");
+            textCurso.setText("Não há alunos");
+            return;
+        }
         alunoAtual = Globals.alunos.get(Globals.contAluno);
         if(Globals.contAluno == Globals.alunos.size()-1){
             nextAlunoButton.setDisable(true);
@@ -122,7 +134,7 @@ public class PageAlunoController implements Initializable{
                 atividadesDoAluno.add(registro);
             }
         }
-        generateTable(atividadesDoAluno);
+        generateTable();
 
     }
 
@@ -131,9 +143,10 @@ public class PageAlunoController implements Initializable{
     
     
     
-    private void generateTable(ArrayList<RegistroAtividade> atividadeDoAluno){
+    private void generateTable(){
         //Gera a tabela com as atividades.
-        // tableAtividades.setEditable(false);
+        tableAtividades.setEditable(false);
+        // tableAtividades.setDisable(false);
         TableColumn<RegistroAtividade, String> nomeAtividadeColumn = new TableColumn<RegistroAtividade, String>("Nome atividade");
         nomeAtividadeColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, String>("nomeAtividade"));
         nomeAtividadeColumn.setPrefWidth(300);
@@ -151,8 +164,9 @@ public class PageAlunoController implements Initializable{
         horasMaximoColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, Integer>("maximoHoras"));
         horasMaximoColumn.setPrefWidth(100);
 
-        TableColumn<RegistroAtividade, Integer> horasCumpridasColumn = new TableColumn<RegistroAtividade, Integer> ("Horas cumpridas");
-        horasCumpridasColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, Integer>("horasCumpridas"));
+        TableColumn<RegistroAtividade, String> horasCumpridasColumn = new TableColumn<RegistroAtividade, String> ("Horas cumpridas");
+        horasCumpridasColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, String>("horasCumpridas"));
+        horasCumpridasColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         horasCumpridasColumn.setPrefWidth(100);
 
         TableColumn<RegistroAtividade, String> dataColumn = new TableColumn<RegistroAtividade, String>("Data");
@@ -164,17 +178,23 @@ public class PageAlunoController implements Initializable{
         horaColumn.setPrefWidth(70);
 
         TableColumn<RegistroAtividade, String> linkColumn = new TableColumn<RegistroAtividade, String>("Link Certificado");
+        linkColumn.setCellFactory(new HyperlinkCell());
         linkColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, String>("linkCertificado"));
-        linkColumn.setPrefWidth(170);
-        
+        linkColumn.setPrefWidth(250);
 
         TableColumn<RegistroAtividade, Boolean> homologadoColumn = new TableColumn<RegistroAtividade, Boolean>("Homologado");
         homologadoColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, Boolean>("homologado"));
+        homologadoColumn.setCellFactory(CheckBoxTableCell.forTableColumn(homologadoColumn));
+        
         homologadoColumn.setPrefWidth(80);
 
+
+
+
         TableColumn<RegistroAtividade, String> justificativaColumn = new TableColumn<RegistroAtividade, String>("Justificativa");
+        justificativaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         justificativaColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, String>("justificativa"));
-        justificativaColumn.setPrefWidth(200);
+        justificativaColumn.setPrefWidth(400);
 
 
 
@@ -190,9 +210,13 @@ public class PageAlunoController implements Initializable{
         tableAtividades.getColumns().add(homologadoColumn);
         tableAtividades.getColumns().add(justificativaColumn);
 
-        atividadeDoAluno.forEach(e -> {
+
+        atividadesDoAluno.forEach(e -> {
             tableAtividades.getItems().add(e);
         });
+
+
+
     }
 
 }

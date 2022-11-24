@@ -144,30 +144,29 @@ public class CadastrarAtividadeScreenController implements Initializable{
         
         //Caso usuário ponha um valor não numérico.
         try {
-            Integer.parseInt(textFieldUnidade.getText());
+
+        //Caso usuário ponha um valor maior que o maximo por atividade nas horas cumpridas.
+            if(Integer.parseInt(textFieldUnidade.getText()) > Integer.parseInt(horasAtividadeText.getText())){
+                Dialog<String>dialog = new Dialog<String>();
+                dialog.setHeaderText("Horas cumpridas excedem o máximo por atividade");
+                dialog.show();
+                Window    window = dialog.getDialogPane().getScene().getWindow();
+                window.setOnCloseRequest(eventwindow -> window.hide());
+                return;
+            }
+
+
+            if(textFieldComprovante.getText().length() < 10){
+                Dialog<String>dialog = new Dialog<String>();
+                dialog.setHeaderText("Link inválido");
+                dialog.show();
+                Window    window = dialog.getDialogPane().getScene().getWindow();
+                window.setOnCloseRequest(eventwindow -> window.hide());
+                return;
+            } 
         } catch (Exception e) {
             Dialog<String>dialog = new Dialog<String>();
             dialog.setHeaderText("Horas cumpridas inválidas");
-            dialog.show();
-            Window    window = dialog.getDialogPane().getScene().getWindow();
-            window.setOnCloseRequest(eventwindow -> window.hide());
-            return;
-        }
-
-        //Caso usuário ponha um valor maior que o maximo por atividade nas horas cumpridas.
-        if(Integer.parseInt(textFieldUnidade.getText()) > Integer.parseInt(horasAtividadeText.getText())){
-            Dialog<String>dialog = new Dialog<String>();
-            dialog.setHeaderText("Horas cumpridas excedem o máximo por atividade");
-            dialog.show();
-            Window    window = dialog.getDialogPane().getScene().getWindow();
-            window.setOnCloseRequest(eventwindow -> window.hide());
-            return;
-        }
-
-
-        if(textFieldComprovante.getText().length() < 10){
-            Dialog<String>dialog = new Dialog<String>();
-            dialog.setHeaderText("Link inválido");
             dialog.show();
             Window    window = dialog.getDialogPane().getScene().getWindow();
             window.setOnCloseRequest(eventwindow -> window.hide());
@@ -243,12 +242,11 @@ public class CadastrarAtividadeScreenController implements Initializable{
     
     
     public static void salvarNoJson(RegistroAtividade atividade) throws FileNotFoundException{
-        InputStream input = new FileInputStream("src/main/resources/data/registros.json");
-        JsonReader reader = Json.createReader(input);
-        JsonObject inputObject = reader.readObject(); //Pega o objeto que já tem no json de registros.
-        //Pega a lista que tem dentro da chave "registros" e cria uma nova lista(JsonArrayBuilder) 
-        //unindo os conteudos que já tinha na JsonArray original com o json da Atividade a ser registrada.
-        JsonArrayBuilder novaListadeRegistros = Json.createArrayBuilder(inputObject.getJsonArray("registros")).add(RegistroAtividade.toJson(atividade));
+        JsonArrayBuilder novaListadeRegistros = Json.createArrayBuilder();
+        
+        //Pega o que já tem carregad em memória e remonta alista que será persistida no json.
+        Globals.registros.forEach(element -> novaListadeRegistros.add(RegistroAtividade.toJson(element)));
+        novaListadeRegistros.add(RegistroAtividade.toJson(atividade));
         
         //Remonta o object encabeçando a chave "registros".
         JsonObject novoObjetoDeRegistros = Json.createObjectBuilder().add("registros", novaListadeRegistros).build();

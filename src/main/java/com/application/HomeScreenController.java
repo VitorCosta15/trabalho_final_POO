@@ -24,6 +24,11 @@ public class HomeScreenController implements Initializable {
         App.setRoot("/layouts/modulo_aluno.fxml");
     }
 
+    @FXML
+    void goToModuloProfessor(ActionEvent event) throws IOException{
+        App.setRoot("/layouts/modulo_professor.fxml");
+    }
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub

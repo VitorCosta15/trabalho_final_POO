@@ -6,6 +6,14 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+
 public class RegistroAtividade {
     private String nomeAluno;
     private String nomeAtividade;
@@ -46,6 +54,7 @@ public class RegistroAtividade {
         this.hora = hora;
         this.justificativa = justificativa;
     }
+
 
 
 
@@ -282,6 +291,100 @@ public class RegistroAtividade {
         json.add("justificativa", registroAtividade.getJustificativa());
         JsonObject jsonObject = json.build();
         return jsonObject;
+    }
+
+
+    public static Aluno alunoFromRegistro(RegistroAtividade registroAtividade){
+        return new Aluno(
+            registroAtividade.getNomeAluno(),
+            registroAtividade.getMatricula(),
+            registroAtividade.getCurso(),
+            registroAtividade.getEmail(),
+            registroAtividade.getIngresso(),
+            registroAtividade.getFormatura()
+            
+        );
+    }
+
+
+
+
+
+
+    public ObservableValue<String> horaProperty(){
+        StringProperty property = new SimpleStringProperty(getHora());
+        return property;
+    }
+
+    public ObservableValue<String> dataProperty(){
+        StringProperty property = new SimpleStringProperty(getData());
+        return property;
+    }
+
+    public IntegerProperty maximoHorasProperty(){
+        IntegerProperty property = new SimpleIntegerProperty(getMaximoHoras());
+        return property;
+    }
+
+    public IntegerProperty horasAtividadeProperty(){
+        IntegerProperty property = new SimpleIntegerProperty(getHorasAtividade());
+        return property;
+    }
+
+    public ObservableValue<String> unidadeProperty(){
+        StringProperty property = new SimpleStringProperty(getUnidade());
+        return property;
+    }
+
+    public ObservableValue<String> emailProperty(){
+        StringProperty property = new SimpleStringProperty(getEmail());
+        return property;
+    }
+
+    public ObservableValue<String> formaturaProperty(){
+        StringProperty property = new SimpleStringProperty(getFormatura());
+        return property;
+    }
+
+    public ObservableValue<String> ingressoProperty(){
+        StringProperty property = new SimpleStringProperty(getIngresso());
+        return property;
+    }
+
+    public ObservableValue<String> cursoProperty(){
+        StringProperty property = new SimpleStringProperty(getCurso());
+        return property;
+    }
+
+    public ObservableValue<String> nomeAtividadeProperty(){
+        StringProperty property = new SimpleStringProperty(getNomeAtividade());
+        return property;
+    }
+
+    public ObservableValue<String> nomeAlunoProperty(){
+        StringProperty property = new SimpleStringProperty(getNomeAluno());
+        return property;
+    }
+
+
+    public BooleanProperty homologadoProperty() {
+        BooleanProperty property = new SimpleBooleanProperty(isHomologado());
+        return property;
+    }
+
+    public ObservableValue<String> justificativaProperty(){
+        StringProperty property = new SimpleStringProperty(getJustificativa());
+        return property;
+    }
+
+    public ObservableValue<String> linkCertificadoProperty(){
+        StringProperty property = new SimpleStringProperty(getLinkCertificado());
+        return property;
+    }
+
+    public ObservableValue<String> horasCumpridasProperty(){
+        StringProperty property = new SimpleStringProperty(Integer.toString(getHorasCumpridas()));
+        return property;
     }
 
 

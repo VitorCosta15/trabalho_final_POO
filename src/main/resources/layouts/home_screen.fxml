@@ -53,7 +53,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Button fx:id="moduloProfessorButton" layoutX="58.0" layoutY="325.0" mnemonicParsing="false" prefHeight="118.0" prefWidth="211.0" style="-fx-background-color: blue;" text="Módulo do Professor" textFill="#eef2f1">
+      <Button fx:id="moduloProfessorButton" layoutX="58.0" layoutY="325.0" mnemonicParsing="false" onAction="#goToModuloProfessor" prefHeight="118.0" prefWidth="211.0" style="-fx-background-color: blue;" text="Módulo do Professor" textFill="#eef2f1">
          <font>
             <Font size="18.0" />
          </font>

@@ -14,6 +14,7 @@ import javax.json.JsonValue;
 
 import com.models.Aluno;
 import com.models.Atividade;
+import com.models.Professor;
 import com.models.RegistroAtividade;
 
 
@@ -23,6 +24,13 @@ import com.models.RegistroAtividade;
 
 public class App extends Application {
     static Scene scene;
+    
+    //Usado somente para invocar o link do certificado.
+    private static App urlLauncher = new App();
+    
+    public static App getUrlLauncher () {
+        return urlLauncher;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -51,12 +59,15 @@ public class App extends Application {
         InputStream fileAtividadesEngenharia = new FileInputStream("src/main/resources/data/atividades_ciencia.json");
         InputStream fileAlunos = new FileInputStream("src/main/resources/data/alunos.json");
         InputStream fileRegistros = new FileInputStream("src/main/resources/data/registros.json");
+        InputStream fileProfessor = new FileInputStream("src/main/resources/data/professor.json");
         JsonReader readerAtividadesCiencia = Json.createReader(fileAtividadesCiencia);
         JsonReader readerAtividadesEngenharia = Json.createReader(fileAtividadesEngenharia);
         JsonReader readerAlunos = Json.createReader(fileAlunos);
+        JsonReader readerProfessor = Json.createReader(fileProfessor);
         JsonReader readerRegistros = Json.createReader(fileRegistros);
         JsonObject jsonObjectAtividadesCiencia = readerAtividadesCiencia.readObject();
         JsonObject jsonObjectAtividadesEngenharia = readerAtividadesEngenharia.readObject();
+        JsonObject jsonObjectProfessor = readerProfessor.readObject();
         JsonObject jsonObjectAlunos = readerAlunos.readObject();
         JsonObject jsonObjectRegistros = readerRegistros.readObject();
         JsonArray listRegistros = jsonObjectRegistros.getJsonArray("registros");
@@ -79,6 +90,10 @@ public class App extends Application {
         for(JsonValue i : listRegistros){
             Globals.registros.add(RegistroAtividade.fromJson(i.asJsonObject()));
         }
+        
+        
+        
+        Globals.professor = Professor.fromJson(jsonObjectProfessor);
     }
 
 }
