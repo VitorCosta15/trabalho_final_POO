@@ -1,19 +1,15 @@
 package com.modulo_professor;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
-
 import com.application.App;
 import com.application.Globals;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.util.converter.LocalTimeStringConverter;
 
 public class ModuloProfessorController implements Initializable{
 
