@@ -40,7 +40,7 @@ public class App extends Application {
         stage.setWidth(1300);
         stage.setResizable(false);
         scene = new Scene(loader.load());
-        stage.setTitle("Cobalto do Paraguay");
+        stage.setTitle("Cobalto paraguayo");
         stage.setScene(scene);
         stage.show();
     }

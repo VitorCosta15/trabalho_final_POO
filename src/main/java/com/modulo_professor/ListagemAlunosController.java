@@ -27,6 +27,9 @@ public class ListagemAlunosController implements Initializable{
     private Label nomeProfessorText;
 
     @FXML
+    private Label horasHomologadasText;
+
+    @FXML
     private Button returnButton;
 
     @FXML
@@ -68,6 +71,10 @@ public class ListagemAlunosController implements Initializable{
         cursoColumn.setCellValueFactory(new PropertyValueFactory<Aluno, String>("curso"));
         cursoColumn.setPrefWidth(400);
 
+        TableColumn<Aluno, Integer> horasHomologadasColumn = new TableColumn<Aluno, Integer>("Horas homologadas");
+        horasHomologadasColumn.setCellValueFactory(new PropertyValueFactory<Aluno, Integer>("horasHomologadas"));
+        horasHomologadasColumn.setPrefWidth(200);
+
         TableColumn<Aluno, String> emailColumn = new TableColumn<Aluno, String>("Email");
         emailColumn.setCellValueFactory(new PropertyValueFactory<Aluno, String>("email"));
         emailColumn.setPrefWidth(240);
@@ -82,6 +89,7 @@ public class ListagemAlunosController implements Initializable{
         tableAlunos.getColumns().add(matriculaColumn);
         tableAlunos.getColumns().add(cursoColumn);
         tableAlunos.getColumns().add(emailColumn);
+        tableAlunos.getColumns().add(horasHomologadasColumn);
         tableAlunos.getColumns().add(ingressoColumn);
         tableAlunos.getColumns().add(formaturaColumn);
 
@@ -103,19 +111,11 @@ public class ListagemAlunosController implements Initializable{
 
 
     private void loadAlunosComAtividades(){
-        Globals.registros.forEach(registro -> {
-            Boolean aux = true;
-            if(alunosComAtividades.isEmpty()){
-                alunosComAtividades.add(RegistroAtividade.alunoFromRegistro(registro));
-            } else {
-                for(Aluno e : alunosComAtividades){
-                    if(e.getMatricula().equals(registro.getMatricula())){
-                        aux = false;
-                        break;
-                    }
-                }
-                if(aux) {
-                    alunosComAtividades.add(RegistroAtividade.alunoFromRegistro(registro));
+        Globals.alunos.forEach(aluno -> {
+            for(RegistroAtividade registro : Globals.registros){
+                if(registro.getMatricula().equals(aluno.getMatricula())){
+                    alunosComAtividades.add(aluno);
+                    break;
                 }
             }
         });

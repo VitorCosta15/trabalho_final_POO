@@ -42,6 +42,9 @@ public class PageAlunoController implements Initializable{
 
     @FXML
     private ScrollPane scroller;
+
+    @FXML
+    private Label horasHomologadasText;
     
     
     @FXML
@@ -129,6 +132,7 @@ public class PageAlunoController implements Initializable{
         textFormatura.setText(alunoAtual.getFormatura());
         textIngresso.setText(alunoAtual.getIngresso());
         textCurso.setText(alunoAtual.getCurso());
+        horasHomologadasText.setText("Total de horas homologadas: " + String.valueOf(alunoAtual.getHorasHomologadas()));
         for(RegistroAtividade registro : Globals.registros){
             if(registro.getMatricula().equals(alunoAtual.getMatricula())){
                 atividadesDoAluno.add(registro);

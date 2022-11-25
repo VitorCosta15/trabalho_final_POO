@@ -294,17 +294,6 @@ public class RegistroAtividade {
     }
 
 
-    public static Aluno alunoFromRegistro(RegistroAtividade registroAtividade){
-        return new Aluno(
-            registroAtividade.getNomeAluno(),
-            registroAtividade.getMatricula(),
-            registroAtividade.getCurso(),
-            registroAtividade.getEmail(),
-            registroAtividade.getIngresso(),
-            registroAtividade.getFormatura()
-            
-        );
-    }
 
 
 

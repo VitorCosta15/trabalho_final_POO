@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.JsonWriter;
 
 import com.application.App;
@@ -43,6 +42,9 @@ public class CadastrarAtividadeScreenController implements Initializable{
 
     @FXML
     private Button returnButton;
+    
+    @FXML
+    private Label horasHomologadasText;
     
     @FXML
     private Label horasAtividadeText;
@@ -91,6 +93,7 @@ public class CadastrarAtividadeScreenController implements Initializable{
         textFormatura.setText(Globals.alunos.get(Globals.contAluno).getFormatura());
         textIngresso.setText(Globals.alunos.get(Globals.contAluno).getIngresso());
         textCurso.setText(Globals.alunos.get(Globals.contAluno).getCurso());
+        horasHomologadasText.setText("Total de horas homologadas: " + String.valueOf(Globals.alunos.get(Globals.contAluno).getHorasHomologadas()));
         if(Globals.alunos.get(Globals.contAluno).getCurso().equals("Engenharia de computação")){
             for(Atividade i : Globals.atividadesEngenharia){
                 CheckBox checkBox = new CheckBox();

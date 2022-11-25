@@ -1,9 +1,12 @@
 package com.modulo_professor;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -11,6 +14,7 @@ import java.util.ResourceBundle;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.JsonWriter;
 
 import com.application.App;
@@ -41,6 +45,7 @@ public class ContabilizacaoHorasController implements Initializable{
     private static Aluno alunoAtual;
     private static ObservableList<RegistroAtividade> atividadesDoAluno = FXCollections.observableArrayList();
     static private ArrayList<Aluno> alunosComAtividades = new ArrayList<Aluno>();
+    private int aux; //serve para pegar o old value do text field das horas cumpridas.
 
     @FXML
     private Button nextAlunoButton1;
@@ -50,6 +55,10 @@ public class ContabilizacaoHorasController implements Initializable{
 
     @FXML
     private Button prevAlunoButton1;
+
+    @FXML
+    private Label horasHomologadasText;
+
 
     @FXML
     private Button returnButton;
@@ -90,9 +99,11 @@ public class ContabilizacaoHorasController implements Initializable{
         alunosComAtividades.clear();
         tableAtividades.getColumns().clear();
         tableAtividades.getItems().clear();
-        if(Globals.registros.isEmpty()) return;
         loadAlunosComAtividades();
+        if(alunosComAtividades.isEmpty()) return;        
         alunoAtual = alunosComAtividades.get(Globals.contAluno);
+        aux = alunoAtual.getHorasHomologadas();
+        horasHomologadasText.setText("Total de horas homologadas de " + alunoAtual.getNome() + " : " + String.valueOf(alunoAtual.getHorasHomologadas()));
         if(Globals.contAluno == alunosComAtividades.size()-1){
             nextAlunoButton1.setDisable(true);
         } else {
@@ -110,19 +121,11 @@ public class ContabilizacaoHorasController implements Initializable{
 
 
     private void loadAlunosComAtividades(){
-        Globals.registros.forEach(registro -> {
-            Boolean aux = true;
-            if(alunosComAtividades.isEmpty()){
-                alunosComAtividades.add(RegistroAtividade.alunoFromRegistro(registro));
-            } else {
-                for(Aluno e : alunosComAtividades){
-                    if(e.getMatricula().equals(registro.getMatricula())){
-                        aux = false;
-                        break;
-                    }
-                }
-                if(aux) {
-                    alunosComAtividades.add(RegistroAtividade.alunoFromRegistro(registro));
+        Globals.alunos.forEach(aluno -> {
+            for(RegistroAtividade registro : Globals.registros){
+                if(registro.getMatricula().equals(aluno.getMatricula())){
+                    alunosComAtividades.add(aluno);
+                    break;
                 }
             }
         });
@@ -168,6 +171,9 @@ public class ContabilizacaoHorasController implements Initializable{
         horasMaximoColumn.setPrefWidth(100);
 
         TableColumn<RegistroAtividade, String> horasCumpridasColumn = new TableColumn<RegistroAtividade, String> ("Horas cumpridas");
+        horasCumpridasColumn.setOnEditStart(e -> 
+            aux = Integer.parseInt(e.getOldValue())
+        );
         horasCumpridasColumn.setOnEditCommit(e -> {
             try{           
                 if(Integer.parseInt(e.getNewValue()) > e.getRowValue().getHorasAtividade()){
@@ -187,6 +193,10 @@ public class ContabilizacaoHorasController implements Initializable{
                     return;
                 }
                 e.getRowValue().setHorasCumpridas(Integer.parseInt(e.getNewValue()));
+                if(e.getRowValue().isHomologado()){ //NEcessário para fazer um controle em tempo real do total de horas do aluno.
+                    alunoAtual.setHorasHomologadas(alunoAtual.getHorasHomologadas() - aux + Integer.parseInt(e.getNewValue()));
+                    horasHomologadasText.setText("Total de horas homologadas de " + alunoAtual.getNome() + " : " + String.valueOf(alunoAtual.getHorasHomologadas()));
+                }
             });
         horasCumpridasColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, String>("horasCumpridas"));
         horasCumpridasColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -209,7 +219,16 @@ public class ContabilizacaoHorasController implements Initializable{
         homologadoColumn.setCellValueFactory(value -> {
             RegistroAtividade cellData = value.getValue();
             BooleanProperty property = cellData.homologadoProperty();
-            property.addListener((observable, oldValue, newVAlue) -> cellData.setHomologado(newVAlue));
+            property.addListener((observable, oldValue, newVAlue) -> {
+                cellData.setHomologado(newVAlue);
+                if(newVAlue){
+                    alunoAtual.setHorasHomologadas(alunoAtual.getHorasHomologadas() + cellData.getHorasCumpridas());
+                    horasHomologadasText.setText("Total de horas homologadas de " + alunoAtual.getNome() + " : " + String.valueOf(alunoAtual.getHorasHomologadas()));
+                } else {
+                    alunoAtual.setHorasHomologadas(alunoAtual.getHorasHomologadas() - cellData.getHorasCumpridas());
+                    horasHomologadasText.setText("Total de horas homologadas de " + alunoAtual.getNome() + " : " + String.valueOf(alunoAtual.getHorasHomologadas()));
+                }
+            });
             return property;
         });
         // homologadoColumn.setCellValueFactory(new PropertyValueFactory<RegistroAtividade, Boolean>("homologado"));
@@ -258,6 +277,17 @@ public class ContabilizacaoHorasController implements Initializable{
 
     @FXML
     void save(ActionEvent event) throws FileNotFoundException {
+        //Crio uma nova lista de alunos contando as horas homologadas atualizadas dos alunos
+        JsonArrayBuilder novaListaDeAlunos = Json.createArrayBuilder();
+        Globals.alunos.forEach(element -> novaListaDeAlunos.add(Aluno.toJson(element)));
+        JsonObject novoObjetodeAlunos = Json.createObjectBuilder().add("alunos", novaListaDeAlunos).build();
+        OutputStream outputStream = new FileOutputStream("src/main/resources/data/alunos.json");
+        JsonWriter writerr = Json.createWriter(outputStream);
+        writerr.writeObject(novoObjetodeAlunos);
+        
+        
+        
+        
         //devido aos StringProperties, ao atualizar uma variável na tabela seu valor já é setado em todas as instancias.
         //logo so preciso passar a lista atualizada de registros para o json.
 

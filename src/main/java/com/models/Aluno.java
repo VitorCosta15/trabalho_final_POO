@@ -1,5 +1,7 @@
 package com.models;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 public class Aluno {
     private String nome;
@@ -8,14 +10,16 @@ public class Aluno {
     private String email;
     private String ingresso;
     private String formatura;
+    private int horasHomologadas;
 
-    Aluno(String nome, String matricula, String curso, String email, String ingresso, String formatura){
+    Aluno(String nome, String matricula, String curso, String email, String ingresso, String formatura, int horasHomologadas){
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
         this.email = email;
         this.ingresso = ingresso;
         this.formatura = formatura;
+        this.horasHomologadas = horasHomologadas;
     }
 
     public String getNome() {
@@ -66,6 +70,14 @@ public class Aluno {
         this.formatura = formatura;
     }
 
+    public int getHorasHomologadas(){
+        return horasHomologadas;
+    }
+
+    public void setHorasHomologadas(int horasHomologadas){
+        this.horasHomologadas = horasHomologadas;
+    }
+
     public static Aluno fromJson(JsonObject json){
         return new Aluno(
             json.getString("nome"),
@@ -73,8 +85,21 @@ public class Aluno {
             json.getString("curso"),
             json.getString("email"),
             json.getString("ingresso"),
-            json.getString("formatura")
+            json.getString("formatura"),
+            json.getInt("horas_homologadas")
         );
+    }
+
+    public static JsonObject toJson (Aluno aluno){
+        JsonObjectBuilder json = Json.createObjectBuilder();
+        json.add("nome", aluno.getNome());
+        json.add("matricula", aluno.getMatricula());
+        json.add("curso", aluno.getCurso());
+        json.add("email", aluno.getEmail());
+        json.add("ingresso", aluno.getIngresso());
+        json.add("formatura", aluno.getFormatura());
+        json.add("horas_homologadas", aluno.getHorasHomologadas());
+        return json.build();
     }
 
     

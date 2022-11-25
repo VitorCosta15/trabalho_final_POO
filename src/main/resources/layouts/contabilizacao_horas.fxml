@@ -43,22 +43,22 @@
             <Image url="@../images/cobalto.png" />
          </image>
       </ImageView>
-      <Label layoutX="428.0" layoutY="82.0" text="Professor(a):" textFill="WHITE">
+      <Label layoutX="425.0" layoutY="41.0" text="Professor(a):" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="nomeProfessorText" layoutX="586.0" layoutY="82.0" textFill="WHITE">
+      <Label fx:id="nomeProfessorText" layoutX="560.0" layoutY="41.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="849.0" layoutY="82.0" text="SIAPE:" textFill="WHITE">
+      <Label layoutX="849.0" layoutY="41.0" text="SIAPE:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="siapeText" layoutX="931.0" layoutY="82.0" textFill="WHITE">
+      <Label fx:id="siapeText" layoutX="933.0" layoutY="41.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
@@ -66,5 +66,10 @@
       <Button fx:id="nextAlunoButton1" layoutX="1117.0" layoutY="56.0" mnemonicParsing="false" onAction="#goToNextAluno" text="Próximo aluno" />
       <Button fx:id="prevAlunoButton1" layoutX="1118.0" layoutY="101.0" mnemonicParsing="false" onAction="#goToPrevAluno" text="Aluno anterior" />
       <Button fx:id="returnButton1" layoutX="1217.0" layoutY="16.0" mnemonicParsing="false" onAction="#goToModuloProfessorPage" text="Voltar" />
+      <Label fx:id="horasHomologadasText" layoutX="505.0" layoutY="131.0" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

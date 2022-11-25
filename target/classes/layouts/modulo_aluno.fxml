@@ -15,63 +15,63 @@
          </font>
       </Button>
       <AppBar layoutX="-4.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="177.0" prefWidth="1308.0" style="-fx-background-color: blue;" titleText="" />
-      <Label layoutX="253.0" layoutY="29.0" text="Nome:" textFill="WHITE">
+      <Label layoutX="251.0" layoutY="16.0" text="Nome:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="253.0" layoutY="76.0" text="Matrícula:" textFill="WHITE">
+      <Label layoutX="252.0" layoutY="56.0" text="Matrícula:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="253.0" layoutY="116.0" text="Curso:" textFill="WHITE">
+      <Label layoutX="252.0" layoutY="94.0" text="Curso:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="689.0" layoutY="31.0" text="E-mail:" textFill="WHITE">
+      <Label layoutX="689.0" layoutY="16.0" text="E-mail:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="689.0" layoutY="77.0" text="Ingresso:" textFill="WHITE">
+      <Label layoutX="689.0" layoutY="56.0" text="Ingresso:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="689.0" layoutY="117.0" text="Formatura:" textFill="WHITE">
+      <Label layoutX="689.0" layoutY="94.0" text="Formatura:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <Button fx:id="returnButton" layoutX="16.0" layoutY="16.0" mnemonicParsing="false" onAction="#goToHomePage" text="Home" />
-      <Label fx:id="textNome" layoutX="338.0" layoutY="31.0" textFill="WHITE">
+      <Label fx:id="textNome" layoutX="338.0" layoutY="19.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="TextMatricula" layoutX="374.0" layoutY="79.0" textFill="WHITE">
+      <Label fx:id="TextMatricula" layoutX="359.0" layoutY="56.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="textCurso" layoutX="339.0" layoutY="119.0" textFill="WHITE">
+      <Label fx:id="textCurso" layoutX="337.0" layoutY="94.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="textEmail" layoutX="792.0" layoutY="34.0" textFill="WHITE">
+      <Label fx:id="textEmail" layoutX="783.0" layoutY="16.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="textIngresso" layoutX="800.0" layoutY="80.0" textFill="WHITE">
+      <Label fx:id="textIngresso" layoutX="795.0" layoutY="56.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="textFormatura" layoutX="810.0" layoutY="120.0" textFill="WHITE">
+      <Label fx:id="textFormatura" layoutX="819.0" layoutY="94.0" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
@@ -79,5 +79,10 @@
       <Button fx:id="nextAlunoButton" layoutX="1107.0" layoutY="41.0" mnemonicParsing="false" onAction="#goToNextAluno" text="Próximo aluno" />
       <Button fx:id="prevAlunoButton" layoutX="1108.0" layoutY="101.0" mnemonicParsing="false" onAction="#goToPrevAluno" text="Aluno anterior" />
       <TableView fx:id="tableAtividades" layoutY="176.0" prefHeight="423.0" prefWidth="1300.0" />
+      <Label fx:id="horasHomologadasText" layoutX="440.0" layoutY="131.0" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
