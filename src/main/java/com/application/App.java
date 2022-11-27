@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -33,7 +35,7 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, URISyntaxException {
         loadData();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/layouts/home_screen.fxml"));
         stage.setHeight(700);
@@ -54,9 +56,9 @@ public class App extends Application {
     }
 
 
-    public static void loadData() throws IOException{
+    public static void loadData() throws IOException, URISyntaxException {
         InputStream fileAtividadesCiencia = new FileInputStream("src/main/resources/data/atividades_ciencia.json");
-        InputStream fileAtividadesEngenharia = new FileInputStream("src/main/resources/data/atividades_ciencia.json");
+        InputStream fileAtividadesEngenharia = new FileInputStream("src/main/resources/data/atividades_engenharia.json");
         InputStream fileAlunos = new FileInputStream("src/main/resources/data/alunos.json");
         InputStream fileRegistros = new FileInputStream("src/main/resources/data/registros.json");
         InputStream fileProfessor = new FileInputStream("src/main/resources/data/professor.json");
